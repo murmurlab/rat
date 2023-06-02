@@ -12,15 +12,15 @@ set "downloadPath=%~dp0"
 
 :: Node.js indirme
 echo Node.js indiriliyor...
-curl -o "%downloadPath%\node.zip" "%nodeUrl%"
+powershell -command "Invoke-WebRequest -Uri '%nodeUrl%' -OutFile '%downloadPath%\node.zip'"
 
 :: Zip dosyasının çıkarılması
 echo Zip dosyası çıkarılıyor...
-tar -xf "%downloadPath%\node.zip" -C "%downloadPath%"
+powershell -command "Expand-Archive -Path '%downloadPath%\node.zip' -DestinationPath '%downloadPath%'"
 
 :: Script dosyasının indirilmesi
 echo Script dosyası indiriliyor...
-curl -o "%downloadPath%\your-script.js" "%scriptUrl%"
+powershell -command "Invoke-WebRequest -Uri '%scriptUrl%' -OutFile '%downloadPath%\your-script.js'"
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
