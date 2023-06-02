@@ -20,7 +20,11 @@ echo Node.js indiriliyor...
 
 :: Zip dosyasının çıkarılması
 echo Zip dosyası çıkarılıyor...
-powershell -command "Add-Type -A 'System.IO.Compression.FileSystem'; [System.IO.Compression.ZipFile]::ExtractToDirectory('%downloadPath%\node.zip', '%downloadPath%')"
+if not exist "%downloadPath%\node-v16.3.0-win-x64\*" (
+    powershell -command "Add-Type -A 'System.IO.Compression.FileSystem'; [System.IO.Compression.ZipFile]::ExtractToDirectory('%downloadPath%\node.zip', '%downloadPath%')"
+) else (
+    echo Zip dosyası zaten çıkarılmış.
+)
 
 :: Script dosyasının indirilmesi
 echo Script dosyası indiriliyor...
