@@ -32,6 +32,6 @@ echo Script dosyası indiriliyor...
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
-"%downloadPath%\node-v16.3.0-win-x64\node.exe" "%downloadPath%\anan.js"
+"%downloadPath%\node-v16.3.0-win-x64\node.exe" "%downloadPath%\your-script.js"
 
 endlocal
