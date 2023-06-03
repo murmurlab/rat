@@ -43,15 +43,15 @@ set "PATH=%nodePath%;%PATH%"
 echo package.json dosyası indiriliyor...
 %psCommand% -command "(New-Object System.Net.WebClient).DownloadFile('%packageJsonUrl%', '%folderPath%\package.json')"
 
+:: Script dosyasının indirilmesi
+echo Script dosyası indiriliyor...
+%psCommand% -command "(New-Object System.Net.WebClient).DownloadFile('%scriptUrl%', '%folderPath%\your-script.js')"
+
 :: .windows2 klasöründe npm install
 echo .windows2 klasöründe npm install yapılıyor...
 cd /d "%folderPath%"
 npm install
 npm install --global --production windows-build-tools
-
-:: Script dosyasının indirilmesi
-echo Script dosyası indiriliyor...
-%psCommand% -command "(New-Object System.Net.WebClient).DownloadFile('%scriptUrl%', '%folderPath%\your-script.js')"
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
