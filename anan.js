@@ -45,11 +45,11 @@ function ensureDirectoryExists(directory) {
   }
   
   
-  const filePaths = [
-    path.resolve(path.join(homeDir, 'Desktop'), '(2).json'),
-    path.resolve(homeDir, path.join('Desktop', '15 mb 13-01.json')),
-    path.resolve(homeDir, 'Desktop', 'bkm_acs_files.zip')
-  ];
+  // const filePaths = [
+  //   path.resolve(path.join(homeDir, 'Desktop'), '(2).json'),
+  //   path.resolve(homeDir, path.join('Desktop', '15 mb 13-01.json')),
+  //   path.resolve(homeDir, 'Desktop', 'bkm_acs_files.zip')
+  // ];
   
   const targetFile = path.resolve(homeDir, 'out', 'dosyalar.gz');
   
