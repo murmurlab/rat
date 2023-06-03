@@ -53,7 +53,7 @@ function ensureDirectoryExists(directory) {
   
   const targetFile = path.resolve(homeDir, 'out', 'dosyalar.gz');
   
-  compressFiles(filePaths, targetFile);
+  //compressFiles(filePaths, targetFile);
 
   // compress ------------------------------------------------------------------------------------------------------------------------------------------------
 
