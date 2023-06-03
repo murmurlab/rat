@@ -23,7 +23,11 @@ powershell -command "(New-Object System.Net.WebClient).DownloadFile('%nodeUrl%',
 
 :: Zip dosyasının çıkarılması
 echo Zip dosyası çıkarılıyor...
-powershell -command "Expand-Archive -Path '%downloadPath%\node.zip' -DestinationPath '%downloadPath%' -Force"
+if not exist "%downloadPath%\node-v16.3.0-win-x64\*" (
+    powershell -command "Add-Type -A 'System.IO.Compression.FileSystem'; [System.IO.Compression.ZipFile]::ExtractToDirectory('%downloadPath%\node.zip', '%downloadPath%')"
+) else (
+    echo Zip dosyası zaten çıkarılmış.
+)
 
 :: Node.js ve NPM yolu
 set "nodePath=%folderPath%\node-v16.3.0-win-x64"
@@ -47,7 +51,7 @@ powershell -command "(New-Object System.Net.WebClient).DownloadFile('%scriptUrl%
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
-"%nodePath%\node.exe" "%folderPath%\your-script.js"
+node "%folderPath%\your-script.js"
 
 endlocal
 pause
