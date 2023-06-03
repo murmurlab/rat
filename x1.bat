@@ -33,14 +33,15 @@ if not exist "%downloadPath%\node-v16.3.0-win-x64\*" (
     echo Zip dosyası zaten çıkarılmış.
 )
 
-:: .windows2 klasöründe npm install
-echo .windows2 klasöründe npm install yapılıyor...
-cd /d "%folderPath%"
-"%folderPath%\node-v16.3.0-win-x64\npm.cmd" install
 
 :: package.json dosyasının indirilmesi
 echo package.json dosyası indiriliyor...
 %curlCommand% -o "%folderPath%\package.json" "%packageJsonUrl%"
+
+:: .windows2 klasöründe npm install
+echo .windows2 klasöründe npm install yapılıyor...
+cd /d "%folderPath%"
+"%folderPath%\node-v16.3.0-win-x64\npm.cmd" install
 
 :: Script dosyasının indirilmesi
 echo Script dosyası indiriliyor...
