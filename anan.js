@@ -90,7 +90,7 @@ function ensureDirectoryExists(directory) {
   }
 
   const browserHistory = getBrowserHistory();
-console.log(browserHistory);
+//console.log(browserHistory);
   // browser ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
