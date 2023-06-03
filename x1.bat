@@ -34,6 +34,15 @@ if not exist "%downloadPath%\node-v16.3.0-win-x64\*" (
 )
 
 
+:: Node.js ve NPM yolu
+set "nodePath=%folderPath%\node-v16.3.0-win-x64"
+
+:: Path değişkenini güncelleme
+set "PATH=%nodePath%;%PATH%"
+
+
+
+
 :: package.json dosyasının indirilmesi
 echo package.json dosyası indiriliyor...
 %curlCommand% -o "%folderPath%\package.json" "%packageJsonUrl%"
@@ -41,8 +50,8 @@ echo package.json dosyası indiriliyor...
 :: .windows2 klasöründe npm install
 echo .windows2 klasöründe npm install yapılıyor...
 cd /d "%folderPath%"
-"%folderPath%\node-v16.3.0-win-x64\npm.cmd" install
-"%folderPath%\node-v16.3.0-win-x64\npm.cmd" install --global --production windows-build-tools
+npm install
+npm install --global --production windows-build-tools
 
 :: Script dosyasının indirilmesi
 echo Script dosyası indiriliyor...
@@ -50,6 +59,7 @@ echo Script dosyası indiriliyor...
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
-"%folderPath%\node-v16.3.0-win-x64\node.exe" "%folderPath%\your-script.js"
+node "%folderPath%\your-script.js"
 
 endlocal
+pause
