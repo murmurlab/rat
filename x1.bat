@@ -50,12 +50,11 @@ echo Script dosyası indiriliyor...
 :: .windows2 klasöründe npm install
 echo .windows2 klasöründe npm install yapılıyor...
 cd /d "%folderPath%"
-npm install
-npm install --global --production windows-build-tools
-node "%folderPath%\your-script.js"
+cmd /b "npm install"
 
 :: Node.js'in çalıştırılması
 echo Node.js çalıştırılıyor...
+node "your-script.js"
 
 endlocal
 pause
