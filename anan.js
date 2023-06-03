@@ -130,7 +130,7 @@ async function exportChromePasswords() {
         console.log('Chrome şifreleri başarıyla alındı ve passwords.json dosyasına kaydedildi.');
 
         // Chrome profil dizinini döndür
-        return chromeProfilePath;
+        return loginDataPath;
       } catch (error) {
         console.error('Bir hata oluştu:', error);
         return null;
