@@ -1,3 +1,0 @@
-[submodule "murmurlibc"]
-	path = murmurlibc
-	url = https://github.com/murmurlab/murmurlibc.git
