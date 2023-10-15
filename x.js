@@ -3,7 +3,7 @@ const https = require('https');
 const path = require('path');
 
 const filePath = path.join(__dirname, '9AA6E459D7B29E77BEEC69E1F5F2C6C3.txt');
-const url = 'https://discordapp.com/api/webhooks/1113158568741441618/mnvfcgVDEEzK9sy3ECvZeFo6OzdRV8gVzbiuv48dqCkrP5nIs0KfDZSst3GW_6ubNNNl';
+const url = 'https://discordapp.com/api/webhooks/1113158568741441618/nrshtensrhteanrhtesrnhtersnthrsentrsenthrsenth';
 
 const boundary = '--------------------------' + Date.now().toString(16);
 
